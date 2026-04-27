@@ -1,12 +1,13 @@
 NAME        = libftprintf.a
-LIBFT       = libft
+LIBFT_DIR   = libft
+LIBFT_LIB   = $(LIBFT_DIR)/libft.a
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -I. -I$(LIBFT)
+CFLAGS      = -Wall -Wextra -Werror -I. -I$(LIBFT_DIR)
 RM          = rm -f
 AR          = ar rcs
+HEADER      = ft_printf.h
 
 SRCS        = ft_printf.c \
-              ft_eval_format.c \
               ft_print_char.c \
               ft_print_string.c \
               ft_print_nbr.c \
@@ -16,31 +17,29 @@ SRCS        = ft_printf.c \
 
 OBJS        = $(SRCS:.c=.o)
 
-# --- Rules ---
-
+# Default target
 all: $(NAME)
 
+# Target to compile libft if it doesn't exist or needs updating
+$(LIBFT_LIB):
+	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS)
-	$(MAKE) -C $(LIBFT)
-	cp $(LIBFT)/libft.a .
-	mv libft.a $(NAME)
+# libftprintf.a depends on the printf objects AND the compiled libft.a
+$(NAME): $(LIBFT_LIB) $(OBJS)
+	cp $(LIBFT_LIB) $(NAME)
 	$(AR) $(NAME) $(OBJS)
 
-
-%.o: %.c
+# Header tracking included
+%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
-
 
 clean:
 	$(RM) $(OBJS)
-	$(MAKE) -C $(LIBFT) clean
-
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
-	$(MAKE) -C $(LIBFT) fclean
-
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

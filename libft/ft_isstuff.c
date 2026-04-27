@@ -1,46 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_isstuff.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 21:25:02 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/25 18:42:49 by vsack            ###   ########.fr       */
+/*   Created: 2026/04/20 16:45:44 by vsack             #+#    #+#             */
+/*   Updated: 2026/04/25 17:26:42 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+int	ft_isdigit(int c)
 {
-	unsigned int	i;
-	unsigned int	j;
-	char			*sub;
-	size_t			slen;
-
-	if (!s)
-		return (0);
-	slen = ft_strlen(s);
-	if (start >= slen)
-		return (ft_strdup(""));
-	if (len > slen - start)
-		len = slen - start;
-	j = 0;
-	i = start;
-	sub = malloc(len * sizeof(char) + 1);
-	if (!sub)
-		return (0);
-	while (j < len && s[i])
-	{
-		sub[j] = s[i];
-		i++;
-		j++;
-	}
-	sub[j] = '\0';
-	return (sub);
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
 
+int	ft_isalpha(int c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1);
+	return (0);
+}
+
+int	ft_isascii(int c)
+{
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0'
+			&& c <= '9'))
+		return (1);
+	return (0);
+}
+
+int	ft_isprint(int c)
+{
+	if (c >= 32 && c < 127)
+		return (1);
+	return (0);
+}
 /*
 #include "libft.h"
 #include <ctype.h>
@@ -86,15 +90,33 @@ static void	print_result(void)
 
 int	main(void)
 {
-	char	*s;
+	int	c;
+	int	ok_alpha;
+	int	ok_digit;
+	int	ok_alnum;
+	int	ok_ascii;
+	int	ok_print;
 
-	s = ft_substr("hello", 1, 3);
-	check("ft_substr(hello, 1, 3) == ell", s && strcmp(s, "ell") == 0);
-	free(s);
-	s = ft_substr("hello", 42, 3);
-	check("ft_substr start past end returns empty string", s && strcmp(s,
-			"") == 0);
-	free(s);
+	ok_alpha = 1;
+	ok_digit = 1;
+	ok_alnum = 1;
+	ok_ascii = 1;
+	ok_print = 1;
+	c = -1;
+	while (c <= 128)
+	{
+		ok_alpha &= (!!ft_isalpha(c) == !!isalpha(c));
+		ok_digit &= (!!ft_isdigit(c) == !!isdigit(c));
+		ok_alnum &= (!!ft_isalnum(c) == !!isalnum(c));
+		ok_ascii &= (!!ft_isascii(c) == (c >= 0 && c <= 127));
+		ok_print &= (!!ft_isprint(c) == !!isprint(c));
+		c++;
+	}
+	check("ft_isalpha matches isalpha for -1..128", ok_alpha);
+	check("ft_isdigit matches isdigit for -1..128", ok_digit);
+	check("ft_isalnum matches isalnum for -1..128", ok_alnum);
+	check("ft_isascii is true only for 0..127", ok_ascii);
+	check("ft_isprint matches isprint for -1..128", ok_print);
 	print_result();
 	return (g_fails != 0);
 }

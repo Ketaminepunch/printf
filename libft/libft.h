@@ -6,16 +6,14 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 13:39:30 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/23 17:19:24 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/26 14:20:39 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
 # include <unistd.h>
 
 typedef struct s_list
