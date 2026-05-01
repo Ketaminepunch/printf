@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 23:35:59 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/24 15:26:41 by vsack            ###   ########.fr       */
+/*   Updated: 2026/05/01 17:40:03 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int	ft_print_ptr(unsigned long long n)
 	base = "0123456789abcdef";
 	if (n == 0)
 	{
-		(ft_putstr_fd("(nil)", 1));
+		(ft_putstr("(nil)"));
 		return (5);
 	}
-	write(1, "0x", 2);
+	if (write(1, "0x", 2) == -1)
+		return (0);
 	count = 2 + ft_pointer_hex(n, base);
 	return (count);
 }
